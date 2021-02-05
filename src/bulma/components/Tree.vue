@@ -1,7 +1,10 @@
 <template>
-    <div class="item-tree"
-        v-if="items">
-        <div class="item is-flex">
+    <div class="item-tree">
+        <p class="title is-5"
+            v-if="title">
+            {{ i18n(this.title) }}
+        </p>
+        <div class="filter is-flex">
             <div class="control name has-icons-left has-icons-right"
                 v-if="!state.item">
                 <input class="input"
@@ -83,7 +86,8 @@
                 :items="filtered"
                 :parent-id="null"
                 @moved="moved"
-                v-on="$listeners">
+                v-on="$listeners"
+                v-if="items">
                 <template v-slot:item="props">
                     <slot name="item"
                         v-bind="props"/>
@@ -93,11 +97,14 @@
                         v-bind="props"/>
                 </template>
             </items>
+            <loader size="large"
+                v-else/>
         </div>
     </div>
 </template>
 
 <script>
+import Loader from '@enso-ui/loader/bulma'
 import Errors from '@enso-ui/laravel-validation';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
@@ -113,7 +120,7 @@ export default {
 
     directives: { focus },
 
-    components: { Items },
+    components: { Items, Loader },
 
     inject: ['errorHandler', 'i18n', 'route'],
 
@@ -133,6 +140,10 @@ export default {
         routeGroup: {
             type: [String, Function],
             required: true,
+        },
+        title: {
+            type: String,
+            default: null,
         },
         value: {
             type: [Number, Object],
@@ -412,13 +423,15 @@ export default {
 
 <style lang="scss">
     .item-tree {
-        .item .name {
+        .filter .name {
             flex-grow: 1;
         }
 
         .items {
             max-height: 35em;
+            min-height: 10em;
             overflow: auto;
+            position: relative;
 
             ul {
                 padding: 0.1em;

@@ -1,7 +1,7 @@
 <template>
     <li>
         <a class="item dropdown-item"
-            :class="{ 'is-bold has-background-light': item.selected }"
+            :class="{ 'is-bold has-background-info-light': item.selected }"
             @click="select">
             <div class="level">
                 <div class="level-left">
