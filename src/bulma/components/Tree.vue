@@ -367,6 +367,7 @@ export default {
                 this.state.selected = this.flatten()
                     .find(({ id }) => id === value);
 
+                this.state.selected.selected = true;
                 this.expandParents(this.state.selected);
             }
         },
