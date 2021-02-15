@@ -1,5 +1,6 @@
 <template>
-    <div class="item-tree">
+    <div class="item-tree"
+        v-if="loaded">
         <p class="title is-5"
             v-if="title">
             {{ i18n(this.title) }}
@@ -155,6 +156,7 @@ export default {
         cache: null,
         errors: new Errors(),
         items: null,
+        loaded: false,
         state: {
             dragging: null,
             editable: v.editable,
@@ -261,6 +263,7 @@ export default {
                     this.maxNestingLevel = maxNestingLevel;
                     this.preselect();
                     this.backup();
+                    this.loaded = true;
                     this.$emit('loaded', items);
                 }).catch(this.errorHandler);
         },
