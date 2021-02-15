@@ -5,7 +5,7 @@
         :group="{ name: 'items', put: unique }"
         :move="checkMove"
         handle=".dropdown-item"
-        :disabled="!state.editable || state.query !== '' || !!state.item"
+        :disabled="state.query !== '' || !!state.item"
         @change="change"
         @end="endDragging"
         @start="startDragging"

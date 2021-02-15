@@ -235,7 +235,9 @@ export default {
             items.forEach(item => {
                 this.expanded.push(item);
 
-                this.expand(item.items);
+                if (item.items) {
+                    this.expand(item.items);
+                }
             });
         },
         expandParents(item) {
