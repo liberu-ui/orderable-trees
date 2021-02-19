@@ -228,8 +228,8 @@ export default {
                 .then(({ data }) => {
                     this.push(data.item);
                     this.state.item = null;
-                    this.state.loading = false;
-                }).catch(this.handler);
+                }).catch(this.handler)
+                .finally(() => (this.state.loading = false));
         },
         expand(items) {
             items.forEach(item => {
@@ -414,10 +414,10 @@ export default {
             const { item } = this.state;
             const route = this.route(`${this.routePrefix(item)}.update`, item.id);
 
-            axios.patch(route, item).then(() => {
-                this.state.item = null;
-                this.state.loading = false;
-            }).catch(this.handler);
+            axios.patch(route, item)
+                .then(() => (this.state.item = null))
+                .catch(this.handler)
+                .finally(() => (this.state.loading = false));
         },
     },
 
