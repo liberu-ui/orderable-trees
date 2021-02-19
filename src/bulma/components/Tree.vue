@@ -307,6 +307,10 @@ export default {
         },
 
         level(item = null, max = false) {
+            if (this.items.length === 0) {
+                return 0;
+            }
+
             let items;
 
             if (item) {
