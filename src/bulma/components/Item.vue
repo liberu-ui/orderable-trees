@@ -17,7 +17,8 @@
                     </div>
                     <div class="level-item has-padding-left-large">
                         <slot name="item"
-                            :item="item">
+                            :item="item"
+                            :highlight="highlight">
                             <!-- eslint-disable-next-line vue/no-v-html -->
                             <span v-html="highlight(item.name)"/>
                             <span class="icon has-text-info"
