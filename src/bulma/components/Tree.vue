@@ -82,7 +82,7 @@
                 </template>
             </template>
         </div>
-        <div class="items has-margin-top-large">
+        <div class="items mt-3">
             <items class="root"
                 :items="filtered"
                 :parent-id="null"

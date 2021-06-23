@@ -15,7 +15,7 @@
                                 v-else/>
                         </span>
                     </div>
-                    <div class="level-item has-padding-left-large">
+                    <div class="level-item pl-3">
                         <slot name="item"
                             :item="item"
                             :highlight="highlight">
@@ -42,7 +42,7 @@
                                 </span>
                             </a>
                             <confirmation @confirm="destroy">
-                                <a class="is-naked has-margin-right-medium">
+                                <a class="is-naked mr-2">
                                     <span class="icon">
                                         <fa icon="trash-alt"/>
                                     </span>
