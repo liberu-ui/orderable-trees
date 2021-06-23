@@ -1,6 +1,6 @@
 {
   "name": "@enso-ui/orderable-trees",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Orderable trees package",
   "main": "src/bulma/components/Tree.vue",
   "scripts": {
