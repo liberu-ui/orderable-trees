@@ -89,11 +89,11 @@
                 @moved="moved"
                 v-on="$listeners"
                 v-if="items">
-                <template v-slot:item="props">
+                <template #:item="props">
                     <slot name="item"
                         v-bind="props"/>
                 </template>
-                <template v-slot:controls="props">
+                <template #:controls="props">
                     <slot name="controls"
                         v-bind="props"/>
                 </template>
