@@ -73,6 +73,7 @@
 
 <script>
 import { VTooltip } from 'v-tooltip';
+import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
     faMinusSquare, faPlusSquare, faPencilAlt, faTrashAlt, faQuestionCircle,
@@ -87,7 +88,7 @@ export default {
 
     directives: { tooltip: VTooltip },
 
-    components: { Items, Confirmation },
+    components: { Confirmation, Fa, Items },
 
     inject: ['errorHandler', 'route', 'state', 'i18n', 'is', 'routePrefix'],
 

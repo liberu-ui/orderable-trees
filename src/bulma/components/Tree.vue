@@ -106,6 +106,7 @@
 <script>
 import Loader from '@enso-ui/loader/bulma'
 import Errors from '@enso-ui/laravel-validation';
+import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
     faSearch, faPlus, faBan, faDatabase,
@@ -120,7 +121,7 @@ export default {
 
     directives: { focus },
 
-    components: { Items, Loader },
+    components: { Fa, Items, Loader },
 
     inject: ['errorHandler', 'i18n', 'route'],
 
