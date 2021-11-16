@@ -57,14 +57,13 @@
         </a>
         <items :items="item.items"
             :parent-id="item.id"
-            v-on="$listeners"
             v-show="!hasChildren || isExpanded"
             v-if="canHaveChildren">
-            <template #:item="props">
+            <template #item="props">
                 <slot name="item"
                     v-bind="props"/>
             </template>
-            <template #:controls="props">
+            <template #controls="props">
                 <slot name="controls"
                     v-bind="props"/>
             </template>

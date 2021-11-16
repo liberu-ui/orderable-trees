@@ -13,13 +13,12 @@
         <item v-for="item in items"
             :item="item"
             :key="`${item.group}-${item.id}`"
-            :splice="splice"
-            v-on="$listeners">
-            <template #:item="props">
+            :splice="splice">
+            <template #item="props">
                 <slot name="item"
                     v-bind="props"/>
             </template>
-            <template #:controls="props">
+            <template #controls="props">
                 <slot name="controls"
                     v-bind="props"/>
             </template>
