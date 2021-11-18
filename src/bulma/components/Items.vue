@@ -4,25 +4,26 @@
         :animation="150"
         :group="{ name: 'items', put: unique }"
         :move="checkMove"
+        :item-key="item => `${item.group}-${item.id}`"
         handle=".dropdown-item"
         :disabled="state.query !== '' || !!state.item"
         @change="change"
         @end="endDragging"
         @start="startDragging"
         tag="ul">
-        <item v-for="item in items"
-            :item="item"
-            :key="`${item.group}-${item.id}`"
-            :splice="splice">
-            <template #item="props">
-                <slot name="item"
-                    v-bind="props"/>
-            </template>
-            <template #controls="props">
-                <slot name="controls"
-                    v-bind="props"/>
-            </template>
-        </item>
+        <template #item="{ element }">
+            <item :item="element"
+                :splice="splice">
+                <template #item="props">
+                    <slot name="item"
+                        v-bind="props"/>
+                </template>
+                <template #controls="props">
+                    <slot name="controls"
+                        v-bind="props"/>
+                </template>
+            </item>
+        </template>
     </draggable>
 </template>
 
