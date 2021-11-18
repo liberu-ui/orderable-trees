@@ -146,7 +146,7 @@ export default {
             type: String,
             default: null,
         },
-        value: {
+        modelValue: {
             type: [Number, Object],
             default: null,
         },
@@ -367,8 +367,8 @@ export default {
                 });
         },
         preselect() {
-            if (this.value) {
-                const value = this.objects ? this.value.id : this.value;
+            if (this.modelValue) {
+                const value = this.objects ? this.modelValue.id : this.modelValue;
 
                 this.state.selected = this.flatten()
                     .find(({ id }) => id === value);
