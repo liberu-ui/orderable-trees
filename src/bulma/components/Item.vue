@@ -100,6 +100,8 @@ export default {
         },
     },
 
+    emits: ['input', 'deselected', 'selected'],
+
     computed: {
         canHaveChildren() {
             return !!this.item.items;

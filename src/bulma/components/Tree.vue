@@ -152,6 +152,8 @@ export default {
         },
     },
 
+    emits: ['loaded'],
+
     data: v => ({
         cache: null,
         errors: new Errors(),
