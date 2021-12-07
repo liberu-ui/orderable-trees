@@ -12,9 +12,9 @@
         @start="startDragging"
         tag="ul">
         <template #item="{ element }">
-            <div>
             <item :item="element"
-                :splice="splice">
+                :splice="splice"
+                @moved="$emit('moved', $event)">
                 <template #item="props">
                     <slot name="item"
                         v-bind="props"/>
@@ -24,19 +24,18 @@
                         v-bind="props"/>
                 </template>
             </item>
-            </div>
         </template>
     </draggable>
 </template>
 
 <script>
-import { defineAsyncComponent } from 'vue';
 import Draggable from 'vuedraggable';
+import Item from './Item.vue';
 
 export default {
     name: 'Items',
 
-    components: { Draggable, Item: defineAsyncComponent(() => import('./Item.vue')) },
+    components: { Draggable, Item },
 
     inject: ['state'],
 
@@ -52,6 +51,10 @@ export default {
     },
 
     emits: ['moved'],
+
+    mounted() {
+        this.$el.__vue__ = this;
+    },
 
     methods: {
         checkMove({ draggedContext: { element }, relatedContext }) {
@@ -85,7 +88,6 @@ export default {
             }
 
             // eslint-disable-next-line no-underscore-dangle
-            //https://stackoverflow.com/questions/64119722/what-is-the-vue-3-equivalent-of-vue-2s-vue
             this.state.dragging = event.item.__vue__.$options.propsData.item;
         },
         unique(to) {

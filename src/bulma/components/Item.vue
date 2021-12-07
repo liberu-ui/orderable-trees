@@ -57,6 +57,7 @@
         </a>
         <items :items="item.items"
             :parent-id="item.id"
+            @moved="$emit('moved', $event)"
             v-show="!hasChildren || isExpanded"
             v-if="canHaveChildren">
             <template #item="props">
@@ -72,20 +73,20 @@
 </template>
 
 <script>
+import { defineAsyncComponent } from 'vue';
 import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
     faMinusSquare, faPlusSquare, faPencilAlt, faTrashAlt, faQuestionCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import Confirmation from '@enso-ui/confirmation/bulma';
-import Items from './Items.vue';
 
 library.add(faMinusSquare, faPlusSquare, faPencilAlt, faTrashAlt, faQuestionCircle);
 
 export default {
     name: 'Item',
 
-    components: { Confirmation, Fa, Items },
+    components: { Confirmation, Fa, Items: defineAsyncComponent(() => import('./Items.vue')) },
 
     inject: ['errorHandler', 'route', 'state', 'i18n', 'is', 'routePrefix'],
 
@@ -100,7 +101,7 @@ export default {
         },
     },
 
-    emits: ['input', 'deselected', 'selected'],
+    emits: ['input', 'deselected', 'selected', 'moved'],
 
     computed: {
         canHaveChildren() {
@@ -113,6 +114,10 @@ export default {
             return this.state.expanded
                 .some(current => this.is(current, this.item));
         },
+    },
+
+    mounted() {
+        this.$el.__vue__ = this;
     },
 
     methods: {
