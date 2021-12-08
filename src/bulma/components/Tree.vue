@@ -87,6 +87,7 @@
                 :items="filtered"
                 :parent-id="null"
                 @moved="moved"
+                @update:modelValue="$emit('update:modelValue', $event)"
                 v-if="items">
                 <template #item="props">
                     <slot name="item"
@@ -152,7 +153,7 @@ export default {
         },
     },
 
-    emits: ['loaded'],
+    emits: ['loaded', 'update:modelValue'],
 
     data: v => ({
         cache: null,

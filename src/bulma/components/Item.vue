@@ -58,6 +58,7 @@
         <items :items="item.items"
             :parent-id="item.id"
             @moved="$emit('moved', $event)"
+            @update:modelValue="$emit('update:modelValue', $event)"
             v-show="!hasChildren || isExpanded"
             v-if="canHaveChildren">
             <template #item="props">
@@ -101,7 +102,7 @@ export default {
         },
     },
 
-    emits: ['input', 'deselected', 'selected', 'moved'],
+    emits: ['deselected', 'moved', 'selected', 'update:modelValue'],
 
     computed: {
         canHaveChildren() {
@@ -134,7 +135,7 @@ export default {
         },
         clear() {
             this.item.selected = false;
-            this.$emit('input', null);
+            this.$emit('update:modelValue', null);
             this.$emit('deselected', this.item);
             this.state.selected = null;
         },
@@ -164,7 +165,7 @@ export default {
             this.item.selected = true;
             this.state.selected = this.item;
             const input = this.state.objects ? this.item : this.item.id;
-            this.$emit('input', input);
+            this.$emit('update:modelValue', input);
             this.$emit('selected', this.item);
         },
         toggle() {
