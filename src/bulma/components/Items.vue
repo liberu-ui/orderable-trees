@@ -89,11 +89,11 @@ export default {
             }
 
             // eslint-disable-next-line no-underscore-dangle
-            this.state.dragging = event.item.__vue__.$options.propsData.item;
+            this.state.dragging = event.item.__vue__.$props.item;
         },
         unique(to) {
             // eslint-disable-next-line no-underscore-dangle
-            const instanceProps = to.el.__vue__.$options.propsData;
+            const instanceProps = to.el.__vue__.$props;
             const items = instanceProps.list || instanceProps.items;
 
             return !items.some(item => item.name === this.state.dragging.name);
