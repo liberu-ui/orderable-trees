@@ -89,7 +89,9 @@ export default {
 
     components: { Confirmation, Fa, Items: defineAsyncComponent(() => import('./Items.vue')) },
 
-    inject: ['errorHandler', 'route', 'state', 'i18n', 'is', 'routePrefix'],
+    inject: [
+        'errorHandler', 'route', 'state', 'http', 'i18n', 'is', 'routePrefix'
+    ],
 
     props: {
         item: {
@@ -143,7 +145,7 @@ export default {
             const routePrefix = this.routePrefix(this.item);
             const route = this.route(`${routePrefix}.destroy`, this.item.id);
 
-            axios.delete(route).then(() => {
+            this.http.delete(route).then(() => {
                 this.splice(this.item.id);
                 this.state.selected = null;
             }).catch(this.errorHandler);

@@ -124,7 +124,7 @@ export default {
 
     components: { Fa, Items, Loader },
 
-    inject: ['errorHandler', 'i18n', 'route'],
+    inject: ['errorHandler', 'http', 'i18n', 'route'],
 
     props: {
         editable: {
@@ -227,7 +227,7 @@ export default {
             this.state.loading = true;
             const route = this.route(`${this.routePrefix()}.store`);
 
-            axios.post(route, this.payload())
+            this.http.post(route, this.payload())
                 .then(({ data }) => {
                     this.push(data.item);
                     this.state.item = null;
@@ -262,7 +262,7 @@ export default {
             };
         },
         fetch() {
-            axios.get(this.route(`${this.routePrefix()}.index`))
+            this.http.get(this.route(`${this.routePrefix()}.index`))
                 .then(({ data: { items, maxNestingLevel } }) => {
                     this.items = items;
                     this.maxNestingLevel = maxNestingLevel;
@@ -361,7 +361,7 @@ export default {
 
             const route = this.route(`${this.routePrefix(item)}.move`, id);
 
-            axios.patch(route, { parentId, newIndex })
+            this.http.patch(route, { parentId, newIndex })
                 .then(() => this.backup())
                 .catch(error => {
                     this.restore();
@@ -417,7 +417,7 @@ export default {
             const { item } = this.state;
             const route = this.route(`${this.routePrefix(item)}.update`, item.id);
 
-            axios.patch(route, item)
+            this.http.patch(route, item)
                 .then(() => (this.state.item = null))
                 .catch(this.handler)
                 .finally(() => (this.state.loading = false));
