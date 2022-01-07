@@ -58,7 +58,7 @@
         <items :items="item.items"
             :parent-id="item.id"
             @moved="$emit('moved', $event)"
-            @update:modelValue="$emit('update:modelValue', $event)"
+            @update:model-value="$emit('update:modelValue', $event)"
             v-show="!hasChildren || isExpanded"
             v-if="canHaveChildren">
             <template #item="props">

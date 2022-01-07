@@ -15,7 +15,7 @@
             <item :item="element"
                 :splice="splice"
                 @moved="$emit('moved', $event)"
-                @update:modelValue="$emit('update:modelValue', $event)">
+                @update:model-value="$emit('update:modelValue', $event)">
                 <template #item="props">
                     <slot name="item"
                         v-bind="props"/>
