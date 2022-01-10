@@ -3,7 +3,7 @@
         v-if="loaded">
         <p class="title is-5"
             v-if="title">
-            {{ i18n(this.title) }}
+            {{ i18n(title) }}
         </p>
         <div class="filter is-flex">
             <div class="control name has-icons-left has-icons-right"
@@ -87,6 +87,8 @@
                 :items="filtered"
                 :parent-id="null"
                 @moved="moved"
+                @selected="$emit('selected', $event)"
+                @deselected="$emit('deselected', $event)"
                 @update:model-value="$emit('update:modelValue', $event)"
                 v-if="items">
                 <template #item="props">
@@ -105,7 +107,7 @@
 </template>
 
 <script>
-import Loader from '@enso-ui/loader/bulma'
+import Loader from '@enso-ui/loader/bulma';
 import Errors from '@enso-ui/laravel-validation';
 import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -125,6 +127,14 @@ export default {
     components: { Fa, Items, Loader },
 
     inject: ['errorHandler', 'http', 'i18n', 'route'],
+
+    provide() {
+        return {
+            is: this.is,
+            routePrefix: this.routePrefix,
+            state: this.state,
+        };
+    },
 
     props: {
         editable: {
@@ -153,7 +163,7 @@ export default {
         },
     },
 
-    emits: ['loaded', 'update:modelValue'],
+    emits: ['deselected', 'loaded', 'selected', 'update:modelValue'],
 
     data: v => ({
         cache: null,
@@ -422,14 +432,6 @@ export default {
                 .catch(this.handler)
                 .finally(() => (this.state.loading = false));
         },
-    },
-
-    provide() {
-        return {
-            is: this.is,
-            routePrefix: this.routePrefix,
-            state: this.state,
-        };
     },
 };
 </script>

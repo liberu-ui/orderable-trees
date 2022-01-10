@@ -57,6 +57,8 @@
         </a>
         <items :items="item.items"
             :parent-id="item.id"
+            @selected="$emit('selected', $event)"
+            @deselected="$emit('deselected', $event)"
             @moved="$emit('moved', $event)"
             @update:model-value="$emit('update:modelValue', $event)"
             v-show="!hasChildren || isExpanded"
@@ -90,7 +92,7 @@ export default {
     components: { Confirmation, Fa, Items: defineAsyncComponent(() => import('./Items.vue')) },
 
     inject: [
-        'errorHandler', 'route', 'state', 'http', 'i18n', 'is', 'routePrefix'
+        'errorHandler', 'route', 'state', 'http', 'i18n', 'is', 'routePrefix',
     ],
 
     props: {

@@ -15,6 +15,8 @@
             <item :item="element"
                 :splice="splice"
                 @moved="$emit('moved', $event)"
+                @selected="$emit('selected', $event)"
+                @deselected="$emit('deselected', $event)"
                 @update:model-value="$emit('update:modelValue', $event)">
                 <template #item="props">
                     <slot name="item"
@@ -51,7 +53,7 @@ export default {
         },
     },
 
-    emits: ['moved', 'update:modelValue'],
+    emits: ['deselected', 'moved', 'selected', 'update:modelValue'],
 
     mounted() {
         this.$el.__vue__ = this;
