@@ -57,14 +57,17 @@
         </a>
         <items :items="item.items"
             :parent-id="item.id"
-            v-on="$listeners"
+            @selected="$emit('selected', $event)"
+            @deselected="$emit('deselected', $event)"
+            @moved="$emit('moved', $event)"
+            @update:model-value="$emit('update:modelValue', $event)"
             v-show="!hasChildren || isExpanded"
             v-if="canHaveChildren">
-            <template v-slot:item="props">
+            <template #item="props">
                 <slot name="item"
                     v-bind="props"/>
             </template>
-            <template v-slot:controls="props">
+            <template #controls="props">
                 <slot name="controls"
                     v-bind="props"/>
             </template>
@@ -73,24 +76,24 @@
 </template>
 
 <script>
-import { VTooltip } from 'v-tooltip';
+import { defineAsyncComponent } from 'vue';
+import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
     faMinusSquare, faPlusSquare, faPencilAlt, faTrashAlt, faQuestionCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import Confirmation from '@enso-ui/confirmation/bulma';
-import Items from './Items.vue';
 
 library.add(faMinusSquare, faPlusSquare, faPencilAlt, faTrashAlt, faQuestionCircle);
 
 export default {
     name: 'Item',
 
-    directives: { tooltip: VTooltip },
+    components: { Confirmation, Fa, Items: defineAsyncComponent(() => import('./Items.vue')) },
 
-    components: { Items, Confirmation },
-
-    inject: ['errorHandler', 'route', 'state', 'i18n', 'is', 'routePrefix'],
+    inject: [
+        'errorHandler', 'route', 'state', 'http', 'i18n', 'is', 'routePrefix',
+    ],
 
     props: {
         item: {
@@ -103,6 +106,8 @@ export default {
         },
     },
 
+    emits: ['deselected', 'moved', 'selected', 'update:modelValue'],
+
     computed: {
         canHaveChildren() {
             return !!this.item.items;
@@ -114,6 +119,10 @@ export default {
             return this.state.expanded
                 .some(current => this.is(current, this.item));
         },
+    },
+
+    mounted() {
+        this.$el.__vue__ = this;
     },
 
     methods: {
@@ -130,7 +139,7 @@ export default {
         },
         clear() {
             this.item.selected = false;
-            this.$emit('input', null);
+            this.$emit('update:modelValue', null);
             this.$emit('deselected', this.item);
             this.state.selected = null;
         },
@@ -138,7 +147,7 @@ export default {
             const routePrefix = this.routePrefix(this.item);
             const route = this.route(`${routePrefix}.destroy`, this.item.id);
 
-            axios.delete(route).then(() => {
+            this.http.delete(route).then(() => {
                 this.splice(this.item.id);
                 this.state.selected = null;
             }).catch(this.errorHandler);
@@ -160,7 +169,7 @@ export default {
             this.item.selected = true;
             this.state.selected = this.item;
             const input = this.state.objects ? this.item : this.item.id;
-            this.$emit('input', input);
+            this.$emit('update:modelValue', input);
             this.$emit('selected', this.item);
         },
         toggle() {

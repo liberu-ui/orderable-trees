@@ -3,7 +3,7 @@
         v-if="loaded">
         <p class="title is-5"
             v-if="title">
-            {{ i18n(this.title) }}
+            {{ i18n(title) }}
         </p>
         <div class="filter is-flex">
             <div class="control name has-icons-left has-icons-right"
@@ -87,13 +87,15 @@
                 :items="filtered"
                 :parent-id="null"
                 @moved="moved"
-                v-on="$listeners"
+                @selected="$emit('selected', $event)"
+                @deselected="$emit('deselected', $event)"
+                @update:model-value="$emit('update:modelValue', $event)"
                 v-if="items">
-                <template v-slot:item="props">
+                <template #item="props">
                     <slot name="item"
                         v-bind="props"/>
                 </template>
-                <template v-slot:controls="props">
+                <template #controls="props">
                     <slot name="controls"
                         v-bind="props"/>
                 </template>
@@ -105,8 +107,9 @@
 </template>
 
 <script>
-import Loader from '@enso-ui/loader/bulma'
+import Loader from '@enso-ui/loader/bulma';
 import Errors from '@enso-ui/laravel-validation';
+import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
     faSearch, faPlus, faBan, faDatabase,
@@ -121,9 +124,17 @@ export default {
 
     directives: { focus },
 
-    components: { Items, Loader },
+    components: { Fa, Items, Loader },
 
-    inject: ['errorHandler', 'i18n', 'route'],
+    inject: ['errorHandler', 'http', 'i18n', 'route'],
+
+    provide() {
+        return {
+            is: this.is,
+            routePrefix: this.routePrefix,
+            state: this.state,
+        };
+    },
 
     props: {
         editable: {
@@ -146,11 +157,13 @@ export default {
             type: String,
             default: null,
         },
-        value: {
+        modelValue: {
             type: [Number, Object],
             default: null,
         },
     },
+
+    emits: ['deselected', 'loaded', 'selected', 'update:modelValue'],
 
     data: v => ({
         cache: null,
@@ -224,7 +237,7 @@ export default {
             this.state.loading = true;
             const route = this.route(`${this.routePrefix()}.store`);
 
-            axios.post(route, this.payload())
+            this.http.post(route, this.payload())
                 .then(({ data }) => {
                     this.push(data.item);
                     this.state.item = null;
@@ -259,7 +272,7 @@ export default {
             };
         },
         fetch() {
-            axios.get(this.route(`${this.routePrefix()}.index`))
+            this.http.get(this.route(`${this.routePrefix()}.index`))
                 .then(({ data: { items, maxNestingLevel } }) => {
                     this.items = items;
                     this.maxNestingLevel = maxNestingLevel;
@@ -358,7 +371,7 @@ export default {
 
             const route = this.route(`${this.routePrefix(item)}.move`, id);
 
-            axios.patch(route, { parentId, newIndex })
+            this.http.patch(route, { parentId, newIndex })
                 .then(() => this.backup())
                 .catch(error => {
                     this.restore();
@@ -367,8 +380,8 @@ export default {
                 });
         },
         preselect() {
-            if (this.value) {
-                const value = this.objects ? this.value.id : this.value;
+            if (this.modelValue) {
+                const value = this.objects ? this.modelValue.id : this.modelValue;
 
                 this.state.selected = this.flatten()
                     .find(({ id }) => id === value);
@@ -414,19 +427,11 @@ export default {
             const { item } = this.state;
             const route = this.route(`${this.routePrefix(item)}.update`, item.id);
 
-            axios.patch(route, item)
+            this.http.patch(route, item)
                 .then(() => (this.state.item = null))
                 .catch(this.handler)
                 .finally(() => (this.state.loading = false));
         },
-    },
-
-    provide() {
-        return {
-            is: this.is,
-            routePrefix: this.routePrefix,
-            state: this.state,
-        };
     },
 };
 </script>

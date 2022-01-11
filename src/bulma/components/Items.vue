@@ -4,36 +4,41 @@
         :animation="150"
         :group="{ name: 'items', put: unique }"
         :move="checkMove"
+        :item-key="item => `${item.group}-${item.id}`"
         handle=".dropdown-item"
         :disabled="state.query !== '' || !!state.item"
         @change="change"
         @end="endDragging"
         @start="startDragging"
         tag="ul">
-        <item v-for="item in items"
-            :item="item"
-            :key="`${item.group}-${item.id}`"
-            :splice="splice"
-            v-on="$listeners">
-            <template v-slot:item="props">
-                <slot name="item"
-                    v-bind="props"/>
-            </template>
-            <template v-slot:controls="props">
-                <slot name="controls"
-                    v-bind="props"/>
-            </template>
-        </item>
+        <template #item="{ element }">
+            <item :item="element"
+                :splice="splice"
+                @moved="$emit('moved', $event)"
+                @selected="$emit('selected', $event)"
+                @deselected="$emit('deselected', $event)"
+                @update:model-value="$emit('update:modelValue', $event)">
+                <template #item="props">
+                    <slot name="item"
+                        v-bind="props"/>
+                </template>
+                <template #controls="props">
+                    <slot name="controls"
+                        v-bind="props"/>
+                </template>
+            </item>
+        </template>
     </draggable>
 </template>
 
 <script>
 import Draggable from 'vuedraggable';
+import Item from './Item.vue';
 
 export default {
     name: 'Items',
 
-    components: { Draggable, Item: () => import('./Item.vue') },
+    components: { Draggable, Item },
 
     inject: ['state'],
 
@@ -46,6 +51,12 @@ export default {
             type: Number,
             default: null,
         },
+    },
+
+    emits: ['deselected', 'moved', 'selected', 'update:modelValue'],
+
+    mounted() {
+        this.$el.__vue__ = this;
     },
 
     methods: {
@@ -80,11 +91,11 @@ export default {
             }
 
             // eslint-disable-next-line no-underscore-dangle
-            this.state.dragging = event.item.__vue__.$options.propsData.item;
+            this.state.dragging = event.item.__vue__.$props.item;
         },
         unique(to) {
             // eslint-disable-next-line no-underscore-dangle
-            const instanceProps = to.el.__vue__.$options.propsData;
+            const instanceProps = to.el.__vue__.$props;
             const items = instanceProps.list || instanceProps.items;
 
             return !items.some(item => item.name === this.state.dragging.name);
