@@ -1,5 +1,5 @@
 {
-  "name": "@enso-ui/orderable-trees",
+  "name": "@cgdsoftware/orderable-trees",
   "version": "2.0.17",
   "description": "Orderable trees package",
   "main": "src/bulma/components/Tree.vue",
@@ -24,10 +24,10 @@
   },
   "homepage": "https://github.com/enso-ui/orderable-trees#readme",
   "dependencies": {
-    "@enso-ui/confirmation": "^2.0",
-    "@enso-ui/directives": "^2.0",
-    "@enso-ui/laravel-validation": "^2.0",
-    "@enso-ui/loader": "^3.0",
+    "@cgdsoftware/confirmation": "^2.0",
+    "@cgdsoftware/directives": "^2.0",
+    "@cgdsoftware/laravel-validation": "^2.0",
+    "@cgdsoftware/loader": "^3.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
     "@fortawesome/vue-fontawesome": "3.0.0-5",
