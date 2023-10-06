@@ -107,14 +107,14 @@
 </template>
 
 <script>
-import Loader from '@enso-ui/loader/bulma';
-import Errors from '@enso-ui/laravel-validation';
+import Loader from '@liberu-ui/loader/bulma';
+import Errors from '@liberu-ui/laravel-validation';
 import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
     faSearch, faPlus, faBan, faDatabase,
 } from '@fortawesome/free-solid-svg-icons';
-import { focus } from '@enso-ui/directives';
+import { focus } from '@liberu-ui/directives';
 import Items from './Items.vue';
 
 library.add(faSearch, faPlus, faBan, faDatabase);

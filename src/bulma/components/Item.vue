@@ -82,7 +82,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import {
     faMinusSquare, faPlusSquare, faPencilAlt, faTrashAlt, faQuestionCircle,
 } from '@fortawesome/free-solid-svg-icons';
-import Confirmation from '@enso-ui/confirmation/bulma';
+import Confirmation from '@liberu-ui/confirmation/bulma';
 
 library.add(faMinusSquare, faPlusSquare, faPencilAlt, faTrashAlt, faQuestionCircle);
 
