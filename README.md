@@ -1,10 +1,10 @@
 # Orderable Trees
 
-![npm license](https://img.shields.io/npm/l/@enso-ui/orderable-trees.svg) 
-![npm download](https://img.shields.io/npm/dm/@enso-ui/orderable-trees.svg) 
-![GitHub top language](https://img.shields.io/github/languages/top/enso-ui/orderable-trees.svg) 
-![GitHub issues](https://img.shields.io/github/issues/enso-ui/orderable-trees.svg) 
-![npm version](https://img.shields.io/npm/v/@enso-ui/orderable-trees.svg) 
+![npm license](https://img.shields.io/npm/l/@liberu-ui/orderable-trees.svg) 
+![npm download](https://img.shields.io/npm/dm/@liberu-ui/orderable-trees.svg) 
+![GitHub top language](https://img.shields.io/github/languages/top/liberu-ui/orderable-trees.svg) 
+![GitHub issues](https://img.shields.io/github/issues/liberu-ui/orderable-trees.svg) 
+![npm version](https://img.shields.io/npm/v/@liberu-ui/orderable-trees.svg) 
 
 ## Usage
 The component cannot be used outside the Liberu ecosystem.
